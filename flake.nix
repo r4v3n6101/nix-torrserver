@@ -27,5 +27,19 @@
             ./darwin.nix
           ];
         };
+    }
+    // {
+      nixosModules.default =
+        { pkgs, lib, ... }:
+        let
+          torrserver = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        in
+        {
+          imports = [
+            (import ./options.nix { inherit lib torrserver; })
+            ./nixos.nix
+          ];
+
+        };
     };
 }
